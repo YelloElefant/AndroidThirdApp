@@ -10,6 +10,15 @@ import androidx.core.view.WindowInsetsCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import java.net.URLConnection;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
+import org.apache.http.client.HttpClient;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,8 +42,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeText(View v) {
         count++;
+        String URL = "https://www.google.com";
         final TextView mText = (TextView) findViewById(R.id.textView);
-        mText.setText(String.valueOf(count));
+
+        HttpClient httpclient = new DefaultHttpClient();
+        java.net.http.HttpResponse<T> response = httpclient.execute(new HttpGet(URL));
+        if (response.StatusCode() == 200) {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            response.getEntity().writeTo(out);
+            String responseString = out.toString();
+            out.close();
+            // ..more logic
+            mText.setText(responseString);
+
+        } else {
+            // Closes the connection.
+            response.getEntity().getContent().close();
+        }
+
     }
 
 }
