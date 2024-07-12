@@ -7,12 +7,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    // private TextView mText;
+    public int count = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // mText = (TextView) findViewById(R.id.textView);
         super.onCreate(savedInstanceState);
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -21,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-
     }
+
+    public void changeText(View v) {
+        count++;
+        final TextView mText = (TextView) findViewById(R.id.textView);
+        mText.setText(String.valueOf(count));
+    }
+
 }
